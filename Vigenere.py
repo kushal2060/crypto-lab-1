@@ -3,9 +3,16 @@ def generate_key(message, key):
     if len(message) == len(key):
         return key
     else:
-        for i in range(len(message) - len(key)):
-            key.append(key[i % len(key)])
-    return "".join(key)
+        key = list(key)
+        new_key = []
+        key_index = 0
+        for char in message:
+            if char.isalpha():
+                new_key.append(key[key_index % len(key)])
+                key_index += 1
+            else:
+                new_key.append(char)
+        return ''.join(new_key)
 
 def vigenere_encrypt(message, key):
     encrypted_text = []
@@ -18,7 +25,7 @@ def vigenere_encrypt(message, key):
                 encrypted_text.append(chr((ord(message[i]) + shift - 97) % 26 + 97))
         else:
             encrypted_text.append(message[i])
-    return "".join(encrypted_text)
+    return ''.join(encrypted_text)
 
 def vigenere_decrypt(encrypted_message, key):
     decrypted_text = []
@@ -31,14 +38,14 @@ def vigenere_decrypt(encrypted_message, key):
                 decrypted_text.append(chr((ord(encrypted_message[i]) - shift - 97) % 26 + 97))
         else:
             decrypted_text.append(encrypted_message[i])
-    return "".join(decrypted_text)
+    return ''.join(decrypted_text)
 
 if __name__ == "__main__":
-    full_name = "Kushal Acharya" 
+    full_name = "Kushal"  
     keyword = "MOUNTAIN"  
     
    
-    key = generate_key(full_name.replace(" ", "").upper(), keyword.upper())
+    key = generate_key(full_name.upper(), keyword.upper())
     
     encrypted_name = vigenere_encrypt(full_name, key)
     decrypted_name = vigenere_decrypt(encrypted_name, key)
